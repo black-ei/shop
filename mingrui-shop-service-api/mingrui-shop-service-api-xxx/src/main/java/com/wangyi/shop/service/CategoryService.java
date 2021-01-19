@@ -6,9 +6,7 @@ import com.wangyi.shop.entity.CategoryEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -24,4 +22,13 @@ public interface CategoryService {
     @PutMapping(value = "category/edit")
     @ApiOperation(value = "通过id修改商品分类")
     Result<JSONObject> edit(@Validated() @RequestBody CategoryEntity categoryEntity);
+
+    @DeleteMapping(value = "category/del")
+    @ApiOperation(value = "删除商品分类")
+    Result<JSONObject> del(@NotNull(message = "id不能为空") Integer id);
+
+    @PostMapping(value = "category/save")
+    @ApiOperation(value = "新增商品分类")
+    Result<JSONObject> save(@Validated() @RequestBody CategoryEntity categoryEntity);
+
 }

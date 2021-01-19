@@ -1,10 +1,12 @@
 package com.wangyi.shop.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wangyi.shop.base.BaseApiService;
 import com.wangyi.shop.base.Result;
 import com.wangyi.shop.entity.CategoryEntity;
 import com.wangyi.shop.mapper.CategoryMapper;
 import com.wangyi.shop.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -16,6 +18,13 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
 
     @Resource
     private CategoryMapper categoryMapper;
+
+    @Override
+    @Transactional
+    public Result<JSONObject> edit(CategoryEntity categoryEntity) {
+        categoryMapper.updateByPrimaryKeySelective(categoryEntity);
+        return this.setResultSuccess("修改成功");
+    }
 
     @Override
     public Result<List<CategoryEntity>> list(@NotNull(message = "id不能为空") Integer pid) {

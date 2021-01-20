@@ -3,6 +3,7 @@ package com.wangyi.shop.service;
 import com.alibaba.fastjson.JSONObject;
 import com.wangyi.shop.base.Result;
 import com.wangyi.shop.entity.CategoryEntity;
+import com.wangyi.shop.validate.group.MingruiOperation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ public interface CategoryService {
 
     @PutMapping(value = "category/edit")
     @ApiOperation(value = "通过id修改商品分类")
-    Result<JSONObject> edit(@Validated() @RequestBody CategoryEntity categoryEntity);
+    Result<JSONObject> edit(@Validated(value = {MingruiOperation.update.class}) @RequestBody CategoryEntity categoryEntity);
 
     @DeleteMapping(value = "category/del")
     @ApiOperation(value = "删除商品分类")
@@ -29,6 +30,6 @@ public interface CategoryService {
 
     @PostMapping(value = "category/save")
     @ApiOperation(value = "新增商品分类")
-    Result<JSONObject> save(@Validated() @RequestBody CategoryEntity categoryEntity);
+    Result<JSONObject> save(@Validated(value = {MingruiOperation.add.class}) @RequestBody CategoryEntity categoryEntity);
 
 }

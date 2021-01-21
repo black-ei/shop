@@ -32,4 +32,8 @@ public interface CategoryService {
     @ApiOperation(value = "新增商品分类")
     Result<JSONObject> save(@Validated(value = {MingruiOperation.add.class}) @RequestBody CategoryEntity categoryEntity);
 
+    @GetMapping(value = "category/queryCategoryByBrandId")
+    @ApiOperation(value = "通过brandID查询品牌绑定分类")
+    Result<List<CategoryEntity>> selectCategoryByBrandId(@NotNull(message = "品牌id不能为空") Integer brandId);
+
 }

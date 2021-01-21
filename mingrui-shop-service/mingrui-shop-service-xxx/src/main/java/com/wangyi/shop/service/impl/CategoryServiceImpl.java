@@ -3,7 +3,9 @@ package com.wangyi.shop.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.wangyi.shop.base.BaseApiService;
 import com.wangyi.shop.base.Result;
+import com.wangyi.shop.entity.CategoryBrandEntity;
 import com.wangyi.shop.entity.CategoryEntity;
+import com.wangyi.shop.mapper.CategoryBrandMapper;
 import com.wangyi.shop.mapper.CategoryMapper;
 import com.wangyi.shop.service.CategoryService;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,14 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
     @Resource
     private CategoryMapper categoryMapper;
 
+    @Resource
+    private CategoryBrandMapper categoryBrandMapper;
+
+    @Override
+    public Result<List<CategoryEntity>> selectCategoryByBrandId(@NotNull(message = "品牌id不能为空") Integer brandId) {
+        return this.setResultSuccess(categoryMapper.selectCategoryByBrandId(brandId));
+    }
+
     @Override
     @Transactional
     public Result<JSONObject> del(@NotNull(message = "id不能为空") Integer id) {
@@ -27,6 +37,12 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         if (null==categoryEntity) return this.setResultError("数据不存在!");
         //如果当前节点为父节点则不能删除
         if(categoryEntity.getIsParent()==1) return this.setResultError("当前节点为父节点,不能删除");
+
+        //判断分类下是否有绑定的品牌!
+        Example example1 = new Example(CategoryBrandEntity.class);
+        example1.createCriteria().andEqualTo("categoryId",id);
+        int i = categoryBrandMapper.selectCountByExample(example1);
+        if (i>0) return this.setResultError("该分类下有绑定的品牌!,请先取消绑定");
 
         Example example = new Example(CategoryEntity.class);
         example.createCriteria().andEqualTo("parentId",categoryEntity.getParentId());

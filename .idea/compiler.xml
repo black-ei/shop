@@ -6,17 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="mingruishopservicexxx" />
         <module name="mingruishopserviceapixxx" />
         <module name="mingruishopbasiceurekaserver" />
-        <module name="mingruishopcommoncore" />
         <module name="mingruishopbasiczuulserver" />
-        <module name="mingruishopservicexxx" />
+        <module name="mingruishopbasicuploadserver" />
+        <module name="mingruishopcommoncore" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="mingruishopbasiceurekaserver" options="-parameters" />
+      <module name="mingruishopbasicuploadserver" options="-parameters" />
       <module name="mingruishopbasiczuulserver" options="-parameters" />
       <module name="mingruishopcommoncore" options="-parameters" />
       <module name="mingruishopserviceapixxx" options="-parameters" />

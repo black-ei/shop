@@ -49,6 +49,12 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         int i = categoryBrandMapper.selectCountByExample(example1);
         if (i>0) return this.setResultError("该分类下有绑定的品牌!,请先取消绑定");
 
+        //判断分类下是否有规格组
+        Example example2 = new Example(SpecGroupEntity.class);
+        example2.createCriteria().andEqualTo("cid",id);
+        final int i1 = specGroupMapper.selectCountByExample(example2);
+        if (i1>0) return this.setResultError("该分类下有规格组!,请先删除规格组");
+
         Example example = new Example(CategoryEntity.class);
         example.createCriteria().andEqualTo("parentId",categoryEntity.getParentId());
         //通过父id查询父节点下是否只有当前节点一个节点
@@ -63,10 +69,7 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
 
         //有两个以上直接删除
         categoryMapper.deleteByPrimaryKey(id);
-        //删除分类下的规格组
-        Example example2 = new Example(SpecGroupEntity.class);
-        example2.createCriteria().andEqualTo("cid",id);
-        specGroupMapper.deleteByExample(example2);
+
 
         return this.setResultSuccess("删除成功");
     }

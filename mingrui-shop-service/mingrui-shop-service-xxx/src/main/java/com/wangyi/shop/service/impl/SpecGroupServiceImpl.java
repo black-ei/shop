@@ -5,7 +5,9 @@ import com.wangyi.shop.base.BaseApiService;
 import com.wangyi.shop.base.Result;
 import com.wangyi.shop.dto.SpecGroupDTO;
 import com.wangyi.shop.entity.SpecGroupEntity;
+import com.wangyi.shop.entity.SpecParamEntity;
 import com.wangyi.shop.mapper.SpecGroupMapper;
+import com.wangyi.shop.mapper.SpecParamMapper;
 import com.wangyi.shop.service.SpecGroupService;
 import com.wangyi.shop.utils.CopyBean;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +24,16 @@ public class SpecGroupServiceImpl extends BaseApiService implements SpecGroupSer
     @Resource
     private SpecGroupMapper specGroupMapper;
 
+    @Resource
+    private SpecParamMapper specParamMapper;
+
     @Override
     public Result<JSONObject> delSpecGroup(@NotNull Integer id) {
+
+        Example example = new Example(SpecParamEntity.class);
+        example.createCriteria().andEqualTo("groupId",id);
+        final int i = specParamMapper.selectCountByExample(example);
+        if(i>0) return this.setResultError("请先删除规格组下的参数");
         specGroupMapper.deleteByPrimaryKey(id);
         return this.setResultSuccess();
     }

@@ -1,5 +1,6 @@
 package com.wangyi.shop.base;
 
+import com.wangyi.shop.utils.PinyinUtil;
 import com.wangyi.shop.validate.group.MingruiOperation;
 import com.wangyi.shop.validate.group.MingruiOperation;
 import io.swagger.annotations.ApiModel;
@@ -25,7 +26,7 @@ public class BaseDTO {
 
     @ApiModelProperty(hidden = true)
     public String getOrderByClause(){
-        if(null!=sort && !"".equals(sort))return sort + " " + order.replace("false","asc").replace("true","desc");
+        if(null!=sort && !"".equals(sort))return PinyinUtil.camelCasing(sort) + " " + order.replace("false","asc").replace("true","desc");
         return "";
     }
 

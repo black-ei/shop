@@ -1,10 +1,17 @@
 package com.wangyi.shop.utils;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName PinyinUtil
  * @Description: TODO
@@ -16,8 +23,9 @@ import java.util.regex.Pattern;
 public class PinyinUtil {
 
     public static void main(String[] args) {
-        String str = "AAA";
-        System.out.println(getUpperCase(str.toCharArray()[0]+"", false));
+//        String str = "AAA";
+//        System.out.println(getUpperCase(str.toCharArray()[0]+"", false));
+        System.err.println(camelCasing("brandId"));
     }
 
     public static final Boolean TO_FUUL_PINYIN = true;
@@ -115,6 +123,36 @@ public class PinyinUtil {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
         return matcher.find();
+    }
+
+    /*
+    * 确认转换有误时使用!!!*/
+    public static String camelCasing(String str){
+        if (str==null || "".equals(str)) return "";
+        Pattern compile = Pattern.compile("[a-z1-9]*");
+         Pattern compile1 = Pattern.compile("[A-Z]");
+
+        List<String> chars = new ArrayList();
+        char[] chars1 = str.toCharArray();
+        for (int i = 0; i < chars1.length; i++) {
+            chars.add(String.valueOf(chars1[i]));
+        }
+        StringBuffer strBuffer = new StringBuffer();
+            for (int i = 0; i < chars.size(); i++) {
+                if(str.contains("_")){
+                    if(chars.get(i).equals("_")){
+                        chars.set(i+1,chars.get(i+1).toUpperCase());
+                        chars.remove(i);
+                    }
+                }else if(!compile.matcher(str).matches()){
+                    if(compile1.matcher(chars.get(i)).matches()) {
+                        chars.set(i,chars.get(i).toLowerCase());
+                        chars.add(i,"_");
+                    }
+                }
+                strBuffer.append(chars.get(i));
+            }
+            return  strBuffer+"";
     }
 
 }

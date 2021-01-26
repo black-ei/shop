@@ -40,10 +40,13 @@ public class SpecParamServiceImpl extends BaseApiService implements SpecParamSer
     }
 
     @Override
-    public Result<List<SpecParamEntity>> list(@NotNull Integer groupId) {
-
+    public Result<List<SpecParamEntity>> getSpecParamInfo(SpecParamDTO specParamDTO) {
         Example example = new Example(SpecParamEntity.class);
-        example.createCriteria().andEqualTo("groupId",groupId);
+        if(null!=specParamDTO){
+            SpecParamEntity specParamEntity = CopyBean.copyProperties(specParamDTO, SpecParamEntity.class);
+            if(null!=specParamEntity.getGroupId()) example.createCriteria().andEqualTo("groupId",specParamEntity.getGroupId());
+            if (null!=specParamEntity.getCid()) example.createCriteria().andEqualTo("cid",specParamEntity.getCid());
+        }
         return this.setResultSuccess(specParamMapper.selectByExample(example));
     }
 }

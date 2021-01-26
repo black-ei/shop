@@ -19,7 +19,7 @@ public interface SpecParamService {
 
     @GetMapping(value = "specparam/getSpecParamInfo")
     @ApiOperation(value = "查询规格组下的参数")
-    Result<List<SpecParamEntity>> list(@NotNull Integer groupId);
+    Result<List<SpecParamEntity>> getSpecParamInfo(SpecParamDTO specParamDTO);
 
     @PostMapping(value = "specparam/save")
     @ApiOperation(value = "新增规格组参数")

@@ -53,11 +53,11 @@ public class SpuDTO extends BaseDTO{
     private String categoryName;
     @ApiModelProperty(value = "品牌名称")
     private String brandName;
-//    @ApiModelProperty(value = "大字段数据")
-//    @Valid
-//    private SpuDetailDTO spuDetail;
-//    @ApiModelProperty(value = "sku属性数据集合")
-//    @Valid
-//    private List<SkuDTO> skus;
+    @ApiModelProperty(value = "大字段数据")
+    @Valid
+    private SpuDetailDTO spuDetail;
+    @ApiModelProperty(value = "sku属性数据集合")
+    @Valid
+    private List<SkuDTO> skus;
 
 }
